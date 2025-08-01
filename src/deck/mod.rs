@@ -23,6 +23,7 @@ pub struct Card {
     pub suit: Suit,
 }
 
+#[derive(Debug)]
 pub struct Deck {
     cards: Vec<Card>,
 }
@@ -42,6 +43,10 @@ impl fmt::Display for Card {
     }
 }
 
+#[derive(Debug)]
+pub enum DeckError {
+    ShuffleRoundsMustBeGreaterThanZero, 
+}
 
 impl Deck {
     pub fn create() -> Deck {
@@ -60,8 +65,16 @@ impl Deck {
         Deck { cards: deck }
     }
 
-    pub fn shuffle(&mut self) {
-        self.cards.shuffle(&mut rng());
+    pub fn shuffle(&mut self, rounds: usize) -> Result<(), DeckError> {
+        if(rounds <= 0) {
+           return Err(DeckError::ShuffleRoundsMustBeGreaterThanZero)
+        }
+
+        for _ in 0..rounds {
+            self.cards.shuffle(&mut rng());
+        }
+
+        Ok(())
     }
 
     pub fn get_next_card(&mut self) -> Card {
@@ -99,11 +112,20 @@ mod tests {
         let mut deck1 = Deck::create();
         let mut deck2 = Deck::create();
 
-        deck1.shuffle();
+        deck1.shuffle(1);
 
         // It is *possible* for two shuffled decks to have the same order, but highly unlikely
         let has_same_order = deck1.cards.iter().zip(deck2.cards.iter()).all(|(a, b)| a == b);
         assert!(!has_same_order, "Shuffled deck should likely not be in the same order as original");
+    }
+
+    #[test]
+    fn test_suffle_negative_rounds() {
+        let mut deck = Deck::create();
+
+        let res = deck.shuffle(0);
+
+        assert!(res.is_err());
     }
 
     #[test]
