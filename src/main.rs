@@ -7,11 +7,11 @@ mod game;
 
 fn main() {
     let mut deck = Deck::create();
-    deck.shuffle();
+    deck.shuffle(1);
 
     let mut players = vec![
-        Player::create(1, "AggressiveBot"),
-        Player::create(2, "CautiousGPT"),
+        Player::create(1, "AggressiveBot", "example.png"),
+        Player::create(2, "CautiousGPT", "example.png"),
     ];
 
     const CARDS_PER_HAND: usize = 2;
