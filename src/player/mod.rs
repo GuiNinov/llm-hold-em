@@ -1,6 +1,6 @@
 use crate::deck::Card;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Player {
     pub id: usize,
     pub name: String,

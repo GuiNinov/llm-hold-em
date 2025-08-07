@@ -4,9 +4,10 @@ use crate::deck::Card;
 pub enum PokerGameError {
     SeatAlreadyInUse,
     SeatMustBeGreaterThanZero,
-    SeatGreaterThanAllowed(i32, i32),
+    SeatGreaterThanAllowed(u32, u32),
     YouAreAlreadyAtTheGame(),
     NameAlreadyUsed(String),
     CardAlreadyInHand(Card),
-    CannotFundNonGreaterThanZeroValues(i32)
+    CannotFundNonGreaterThanZeroValues(u32),
+    PlayerSeatNotFound(u32)
 }

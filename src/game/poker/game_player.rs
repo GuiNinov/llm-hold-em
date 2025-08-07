@@ -3,18 +3,18 @@ use crate::game::poker::blind::Blind;
 use crate::player::{Player};
 use crate::game::poker::error::PokerGameError;
 
-#[derive()]
+#[derive(Debug, Clone)]
 pub struct PokerGamePlayer {
-    pub seat: i32,
+    pub seat: u32,
     pub player: Player,
     pub blind: Blind,
-    pub cash_amount: i32,
+    pub cash_amount: u32,
     pub hand: Vec<Card>,
-    pub buy_ins: i32,
+    pub buy_ins: u32,
 }
 
 impl PokerGamePlayer {
-    pub fn create(seat: i32, player: Player) -> PokerGamePlayer {
+    pub fn create(seat: u32, player: Player) -> PokerGamePlayer {
          PokerGamePlayer {
             player,
             seat,
@@ -25,7 +25,7 @@ impl PokerGamePlayer {
         }
     }
 
-    pub fn fund(&mut self, amount: i32) -> Result<(), PokerGameError>  {
+    pub fn fund(&mut self, amount: u32) -> Result<(), PokerGameError>  {
         if amount <= 0 { return Err(PokerGameError::CannotFundNonGreaterThanZeroValues(amount)); }
         self.cash_amount += amount;
         self.buy_ins += 1;
